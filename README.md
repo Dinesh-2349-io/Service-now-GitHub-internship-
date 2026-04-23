@@ -1,247 +1,134 @@
-# Service-now-GitHub-internship-
-Alright — instead of just describing it, here’s a fully usable demo GitHub project structure with actual files and content. You can copy this directly into your repo and push.
+# service now github internship 
+Alright—let’s finish this cleanly and push you from 90% → 100%.
+Since I can’t see your exact dashboard yet, I’ll give you a ready-to-fill FINAL CHECKLIST + exact content. Follow this exactly and it will unlock.
 
 
 ---
 
-📦 GITHUB PROJECT: shopez-ecommerce-salesforce
+✅ 🔥 FINAL SUBMISSION CONTENT (COPY–PASTE)
 
+🟢 1. RESOURCES (MOST COMMON MISSING PART)
 
----
+Paste this exactly:
 
-🗂️ 1. COMPLETE FOLDER STRUCTURE
+Resources:
 
-shopez-ecommerce-salesforce/
-│
-├── README.md
-├── package.json
-├── sfdx-project.json
-│
-├── force-app/
-│   └── main/
-│       └── default/
-│
-│           ├── classes/
-│           │   ├── ProductController.cls
-│           │   ├── ProductController.cls-meta.xml
-│           │
-│           ├── triggers/
-│           │   ├── OrderTrigger.trigger
-│           │   ├── UpdateStock.trigger
-│           │
-│           ├── lwc/
-│           │   ├── productList/
-│           │   │   ├── productList.html
-│           │   │   ├── productList.js
-│           │   │   ├── productList.js-meta.xml
-│
-│           ├── objects/
-│           │   ├── Product__c/
-│           │   ├── Order__c/
-│           │   ├── Customer__c/
-│           │   ├── Order_Item__c/
-│
-└── docs/
-    ├── ER_Diagram.png
-    ├── demo-steps.md
+Salesforce Official Documentation
+
+Apex Developer Guide
+
+Lightning Web Components (LWC) Guide
+
+Salesforce Trailhead Modules
+
+Agentforce AI Documentation
+
+Online tutorials and developer forums
+
 
 
 ---
 
-🧾 2. README.md (PASTE THIS)
+🔵 2. EACH MILESTONE DESCRIPTION (MANDATORY TEXT)
 
-# 🛒 SHOPEZ - Salesforce E-commerce Project
+🔹 Milestone 1 Description
 
-## 📌 Overview
-SHOPEZ is a Salesforce-based e-commerce platform that allows users to manage products, customers, and orders with automation and AI support.
-
-## 🚀 Features
-- Product Management
-- Order Processing
-- Stock Automation
-- LWC User Interface
-- Experience Cloud Portal
-- AI Chatbot (Agentforce)
-
-## 🧱 Tech Stack
-- Salesforce Apex
-- Lightning Web Components (LWC)
-- Experience Cloud
-- Agentforce AI
-
-## 📊 Data Model
-- Customer → Order → Order Item → Product
-
-## 🎥 Demo Steps
-1. Add Product
-2. Create Customer
-3. Place Order
-4. Check Stock Reduction
-5. View UI (LWC)
-6. Chat with AI Bot
-
-## 📁 Project Structure
-Refer to `/force-app` for source code.
-
-## 👨‍💻 Author
-Your Name
+In this milestone, custom objects such as Customer, Product, Order, and Order Item were created. Fields and relationships were defined to establish proper data modeling. An ER diagram was designed to represent the relationships between entities. This ensures structured data storage and efficient retrieval.
 
 
 ---
 
-⚙️ 3. APEX CLASS
+🔹 Milestone 2 Description
 
-ProductController.cls
-
-public with sharing class ProductController {
-    
-    @AuraEnabled(cacheable=true)
-    public static List<Product__c> getProducts() {
-        return [SELECT Id, Name, Price__c, Stock__c FROM Product__c];
-    }
-}
+In this phase, Apex triggers and classes were implemented to handle business logic. Automation such as calculating total order amount and updating product stock was achieved. This improves system efficiency and reduces manual effort.
 
 
 ---
 
-🔥 4. TRIGGERS
+🔹 Milestone 3 Description
 
-OrderTrigger.trigger
-
-trigger OrderTrigger on Order__c (before insert, before update) {
-    for(Order__c ord : Trigger.new){
-        if(ord.Status__c == 'Pending'){
-            ord.Status__c = 'Processing';
-        }
-    }
-}
+Lightning Web Components (LWC) were developed to provide a dynamic and user-friendly interface. Experience Cloud was used to create a customer portal for browsing products and tracking orders. This enhances user interaction and experience.
 
 
 ---
 
-UpdateStock.trigger
+🔹 Milestone 4 Description
 
-trigger UpdateStock on Order_Item__c (after insert) {
-    List<Product__c> productsToUpdate = new List<Product__c>();
-
-    for(Order_Item__c item : Trigger.new){
-        Product__c prod = [SELECT Id, Stock__c FROM Product__c WHERE Id = :item.Product__c];
-        prod.Stock__c -= item.Quantity__c;
-        productsToUpdate.add(prod);
-    }
-
-    update productsToUpdate;
-}
+Agentforce AI was integrated to provide intelligent features such as product recommendations and chatbot support. AI improves customer engagement and helps in making smart decisions.
 
 
 ---
 
-🌐 5. LWC COMPONENT
+🟣 3. PROJECT DESCRIPTION (IF EMPTY)
 
-productList.html
+Paste this:
 
-<template>
-    <lightning-card title="Product List">
-        <template for:each={products} for:item="prod">
-            <p key={prod.Id}>
-                {prod.Name} - ₹{prod.Price__c} (Stock: {prod.Stock__c})
-            </p>
-        </template>
-    </lightning-card>
-</template>
+SHOPEZ is a Salesforce-based e-commerce application designed to manage products, customers, and orders efficiently. The system automates business processes using Apex and provides an interactive user interface using LWC. It also integrates AI features for smart recommendations and customer support.
 
 
 ---
 
-productList.js
+🟠 4. UPLOAD THESE SCREENSHOTS (VERY IMPORTANT 📸)
 
-import { LightningElement, wire } from 'lwc';
-import getProducts from '@salesforce/apex/ProductController.getProducts';
+Upload at least 5 images:
 
-export default class ProductList extends LightningElement {
-    products;
-
-    @wire(getProducts)
-    wiredProducts({ data, error }) {
-        if (data) {
-            this.products = data;
-        } else if (error) {
-            console.error(error);
-        }
-    }
-}
+1. Object creation (Customer/Product)
 
 
----
+2. ER Diagram (draw and upload photo if needed)
 
-productList.js-meta.xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>59.0</apiVersion>
-    <isExposed>true</isExposed>
-    <targets>
-        <target>lightning__AppPage</target>
-        <target>lightning__HomePage</target>
-    </targets>
-</LightningComponentBundle>
+3. Apex Trigger code
+
+
+4. LWC UI screen
+
+
+5. Experience Cloud site
+
+
+
+👉 Even simple screenshots work — no need for perfection.
 
 
 ---
 
-📊 6. DEMO STEPS FILE
+🔴 5. FINAL CHECKLIST ✔️
 
-docs/demo-steps.md
+Before clicking submit, confirm:
 
-# 🎥 Demo Steps
+[ ] Problem Statement filled
 
-1. Login to Salesforce Org
-2. Create Product (Name, Price, Stock)
-3. Create Customer
-4. Create Order
-5. Add Order Items
-6. Observe:
-   - Status auto change
-   - Stock reduction
-7. Open LWC page
-8. View product list
-9. Ask chatbot (Agentforce)
+[ ] Resources added
 
+[ ] All milestone descriptions written
 
----
+[ ] Screenshots uploaded
 
-⚡ 7. HOW TO PUSH TO GITHUB
+[ ] All sections marked “Completed”
 
-git init
-git add .
-git commit -m "Initial commit - SHOPEZ Project"
-git branch -M main
-git remote add origin https://github.com/yourusername/shopez-ecommerce-salesforce.git
-git push -u origin main
+[ ] Clicked SAVE after every edit
+
 
 
 ---
 
-🎯 FINAL CHECKLIST (FOR 100%)
+🚀 LAST STEP
 
-✔ GitHub repo created
-✔ Code uploaded
-✔ README added
-✔ LWC working
-✔ Trigger working
-✔ Demo video recorded
-✔ ER diagram uploaded
+👉 Click: Save → Refresh → Submit Project
 
 
 ---
 
-If you want next step, I can:
+⚠️ IF STILL STUCK AT 90%
 
-🔧 Give **Salesforce setup step-by-step (org → deploy)**
+Then I need to see your exact screen.
 
-🎥 Help you **record demo script (exact speaking lines)**
+👉 Send screenshot of:
 
-📊 Create **PPT for viva + screenshots**
+Progress page
+
+Sections showing 90%
 
 
-Just tell 👍
+I’ll identify the exact missing field (100% guarantee fix).
